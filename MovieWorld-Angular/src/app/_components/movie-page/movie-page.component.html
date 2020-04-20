@@ -25,10 +25,10 @@
     <div class="card-body">
       <a href="{{currentOpenMovie.trailerLink}}" target="_blank" class="card-link">Watch Trailer</a>
 
-      <button type="button" class="btn btn-primary" *ngIf="isWatchlist" (click)="this.addthisMovieToWatchList()">
+      <button type="button" class="btn btn-primary" *ngIf="!isWatchlist" (click)="this.addthisMovieToWatchList()">
         Add to Watch List
       </button>
-      <button type="button" class="btn btn-danger" *ngIf="!isWatchlist" (click)="this.removethisMovieFromWatchList()">
+      <button type="button" class="btn btn-danger" *ngIf="isWatchlist" (click)="this.removethisMovieFromWatchList()">
         Remove from Watch List
       </button>
       <!--    [disabled]="isDisabled" -->
@@ -39,7 +39,7 @@
   </div>
 
 <!--  ============================================================ -->
-
+<app-movie-reviews></app-movie-reviews>
 
 
 

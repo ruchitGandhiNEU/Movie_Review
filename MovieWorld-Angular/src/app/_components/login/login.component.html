@@ -26,6 +26,7 @@
             Login
           </button>
           <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+<!--          <div class="alert alert-danger mt-3 mb-0">{{error}}</div>-->
         </form>
       </div>
     </div>
@@ -41,69 +42,73 @@
           <div class="form-group">
             <label>Username
               <input type="text" formControlName="username" class="form-control"
-                     [ngClass]="{ 'is-invalid': submitted && g.username.errors }" required/></label>
-            <div *ngIf="submitted && g.username.errors" class="invalid-feedback">
+                     [ngClass]="{ 'is-invalid': submitted2 && g.username.errors }" required/></label>
+            <div *ngIf="submitted2 && g.username.errors" class="invalid-feedback">
               <div *ngIf="g.username.errors.required">Username is required</div>
             </div>
           </div>
           <div class="form-group">
             <label>Password
               <input type="password" formControlName="password" class="form-control"
-                     [ngClass]="{ 'is-invalid': submitted && g.password.errors }" required/></label>
-            <div *ngIf="submitted && g.password.errors" class="invalid-feedback">
+                     [ngClass]="{ 'is-invalid': submitted2 && g.password.errors }" required/></label>
+            <small class="form-text text-muted">Password minimum 8 characters.</small>
+            <div *ngIf="submitted2 && g.password.errors" class="invalid-feedback">
               <div *ngIf="g.password.errors.required">Password is required</div>
             </div>
           </div>
           <div class="form-group">
             <label>Re-type Password
-              <input type="repassword" formControlName="repassword" class="form-control"
-                     [ngClass]="{ 'is-invalid': submitted && g.repassword.errors }" required/></label>
-            <div *ngIf="submitted && g.repassword.errors" class="invalid-feedback">
+              <input type="password" formControlName="repassword" class="form-control"
+                     [ngClass]="{ 'is-invalid': submitted2 && g.repassword.errors }" required/></label>
+            <div *ngIf="submitted2 && g.repassword.errors" class="invalid-feedback">
               <div *ngIf="g.repassword.errors.required">Re-type Password is required</div>
             </div>
           </div>
           <div class="form-group">
             <label>First Name
               <input type="text" formControlName="firstname" class="form-control"
-                     [ngClass]="{ 'is-invalid': submitted && g.firstname.errors }" required/></label>
-            <div *ngIf="submitted && g.firstname.errors" class="invalid-feedback">
+                     [ngClass]="{ 'is-invalid': submitted2 && g.firstname.errors }" required/></label>
+            <div *ngIf="submitted2 && g.firstname.errors" class="invalid-feedback">
               <div *ngIf="g.firstname.errors.required">firstname is required</div>
             </div>
           </div>
           <div class="form-group">
             <label>Last Name
               <input type="text" formControlName="lastname" class="form-control"
-                     [ngClass]="{ 'is-invalid': submitted && g.lastname.errors }" required/></label>
-            <div *ngIf="submitted && g.lastname.errors" class="invalid-feedback">
+                     [ngClass]="{ 'is-invalid': submitted2 && g.lastname.errors }" required="true"/></label>
+            <div *ngIf="submitted2 && g.lastname.errors" class="invalid-feedback">
               <div *ngIf="g.lastname.errors.required">Last Name is required</div>
             </div>
           </div>
           <div class="form-group">
             <label>User Role :
               <select class="form-control" formControlName="userrole"
-                      [ngClass]="{ 'is-invalid': submitted && g.userrole.errors }">
+                      [ngClass]="{ 'is-invalid': submitted2 && g.userrole.errors }">
                 <option value="User">User</option>
                 <option value="Critic">Critic</option>
               </select>
                           </label>
-              <div *ngIf="submitted && g.userrole.errors" class="invalid-feedback">
+              <div *ngIf="submitted2 && g.userrole.errors" class="invalid-feedback">
                 <div *ngIf="g.userrole.errors.required">Role is required</div>
 
           </div>
 
           <div class="form-group">
             <label>Email
-              <input type="email" formControlName="email" class="form-control"
-                     [ngClass]="{ 'is-invalid': submitted && g.email.errors }" required/></label>
-            <div *ngIf="submitted && g.email.errors" class="invalid-feedback">
+              <input type="email" formControlName="email" class="form-control" required
+                     [ngClass]="{ 'is-invalid': submitted2 && g.email.errors }" /></label>
+            <small class="form-text text-muted">Must be in form of name@mail.com</small>
+            <div *ngIf="submitted2 && g.email.errors" class="invalid-feedback">
               <div *ngIf="g.email.errors.required">Email is required</div>
+              <div *ngIf="g.email.errors.pattern">Email Should be in form of name@mail.com</div>
             </div>
+            <div></div>
           </div>
 
           </div>
           <button [disabled]="loading" class="btn btn-primary">
             <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-            Login
+            Register
           </button>
           <div *ngIf="error2" class="alert alert-danger mt-3 mb-0">{{error2}}</div>
         </form>

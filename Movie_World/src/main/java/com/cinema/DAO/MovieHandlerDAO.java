@@ -138,6 +138,7 @@ try {
     public boolean isWatchList(Movie movie, User user) throws UserGeneratedExceptions {
         try {
             begin();
+            System.out.println("com.cinema.DAO.MovieHandlerDAO.isWatchList() -- movie request came for movie - "+ movie.getId()+" user - "+ user.getId());
             Movie m = addOrGetMovie(movie, "get");
             if (m == null) {
                 commit();

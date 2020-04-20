@@ -18,14 +18,15 @@ export class MoviePageComponent implements OnInit {
   public isWatchedObject: any = [
     {message: "false"}
   ];
-  public isWatchlist: boolean;
+  public isWatchlist: boolean = false;
 
   constructor(private movieService: MovieService) {
     this.currentOpenMovie = movieService.currentOpenMovie;
     movieService.checkIfMovieIsInWatchList(this.currentOpenMovie).subscribe((data) => {
+      console.log('constructor was called from - MoviePageComponent');
       console.log(data);
       this.isWatchedObject = data;
-      this.isWatchlist = this.isWatchedObject.message === "true";
+      this.isWatchlist = this.isWatchedObject.message === "true" ;
       console.log('this.isWatchlist - ');
       console.log(this.isWatchlist);
     }, (err) => {
@@ -55,6 +56,7 @@ export class MoviePageComponent implements OnInit {
         this.error = 'Movie Added';
         this.loading = false;
         this.isDisabled = true;
+        this.isWatchlist = true;
       },
       error => {
         this.alertClass = ConstantClass.CLASS_ALERT_ERROR;
@@ -71,7 +73,7 @@ export class MoviePageComponent implements OnInit {
     this.movieService.removeMovieFromWatchList(this.currentOpenMovie).subscribe((data) => {
       console.log('data in MoviePageComponent  - removethisMovieFromWatchList - subscribe');
       console.log(data);
-      this.isWatchlist = true;
+      this.isWatchlist = false;
     }, (err) => {
       console.log('Error in MoviePageComponent  - removethisMovieFromWatchList - subscribe');
     });

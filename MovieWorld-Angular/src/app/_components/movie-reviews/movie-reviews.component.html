@@ -1,5 +1,9 @@
 
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+
+<div class="media border p-3">
+  <div class="media-body">
+   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <label>Add Review:
               <textarea rows="5" formControlName="comment" class="form-control"
@@ -7,19 +11,20 @@
             <div *ngIf="submitted && f.comment.errors" class="invalid-feedback">
               <div *ngIf="f.comment.errors.required">comment is required</div>
             </div>
+          </div>
           <button [disabled]="loading" class="btn btn-primary" >
             <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-            Login
+            Submit Review
           </button>
           <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
         </form>
-
-
+  </div>
+</div>
 
 <div class="media border p-3" *ngFor="let review of reviews">
-  <img src="./src/assets/images/img_avatar3.png" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+  <img src="assets/images/img_avatar3.png" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
   <div class="media-body">
-    <h4>Anonymous<small><i>Posted on {{review.reviewDate}}</i></small></h4>
+    <h4>{{review.user.firstName}} {{review.user.lastName}} <small><i>Posted on {{review.reviewDate}}</i></small></h4>
     <p>{{review.review}}</p>
   </div>
 </div>
@@ -27,26 +32,26 @@
 
 
 
-<ul class="list-unstyled" *ngFor="let review of reviews">
-  <li class="media">
-    <img class="mr-3" src="..." alt="Generic placeholder image">
-    <div class="media-body">
-      <h5 class="mt-0 mb-1">Anonymous</h5>
-      {{review.review}}
-    </div>
-  </li>
-  <li class="media my-4">
-    <img class="mr-3" src="..." alt="Generic placeholder image">
-    <div class="media-body">
-      <h5 class="mt-0 mb-1">List-based media object</h5>
-      Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-    </div>
-  </li>
-  <li class="media">
-    <img class="mr-3" src="..." alt="Generic placeholder image">
-    <div class="media-body">
-      <h5 class="mt-0 mb-1">List-based media object</h5>
-      Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-    </div>
-  </li>
-</ul>
+<!--<ul class="list-unstyled" *ngFor="let review of reviews">-->
+<!--  <li class="media">-->
+<!--    <img class="mr-3" src="./src/assets/images/img_avatar3.png" alt="Generic placeholder image">-->
+<!--    <div class="media-body">-->
+<!--      <h5 class="mt-0 mb-1">{{review.user.firstName}} {{review.user.lastName}} - on</h5>-->
+<!--      {{review.review}}-->
+<!--    </div>-->
+<!--  </li>-->
+<!--  <li class="media my-4">-->
+<!--    <img class="mr-3" src="..." alt="Generic placeholder image">-->
+<!--    <div class="media-body">-->
+<!--      <h5 class="mt-0 mb-1">List-based media object</h5>-->
+<!--      Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.-->
+<!--    </div>-->
+<!--  </li>-->
+<!--  <li class="media">-->
+<!--    <img class="mr-3" src="..." alt="Generic placeholder image">-->
+<!--    <div class="media-body">-->
+<!--      <h5 class="mt-0 mb-1">List-based media object</h5>-->
+<!--      Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.-->
+<!--    </div>-->
+<!--  </li>-->
+<!--</ul>-->

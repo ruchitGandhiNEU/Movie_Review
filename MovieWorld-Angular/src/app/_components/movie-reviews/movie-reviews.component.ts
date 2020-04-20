@@ -26,6 +26,7 @@ private _reviews: Array<Review>;
         private route: ActivatedRoute,
         private router: Router) {
     this.currentOpenMovie = movieService.currentOpenMovie;
+    this.getThisMovieReviews();
   }
 
   ngOnInit(): void {
@@ -56,6 +57,12 @@ private _reviews: Array<Review>;
 
     this.movieService.getThisMovieReviews(this.currentOpenMovie).subscribe((data) => {
       this.reviews = data;
+      console.log('getting reviews for this movie --');
+      console.log(data);
+      console.log('getting reviews for this movie -- this.reviews object is like -- ');
+      console.log(this.reviews);
+
+
     },(error)=>{})
 
   }
@@ -81,14 +88,24 @@ private _reviews: Array<Review>;
 
         this.loading = true;
 
-        let review : Review = new Review();
 
-        this.movieService.addReview()
+        // REVIEW MOVIEID MOVIENAME IMAGELINK
+        const obj ={
+          review: this.f.comment.value,
+          movieId: this.currentOpenMovie.id.valueOf(),
+           movieName : this.currentOpenMovie.movieName.valueOf(),
+          imageLink: this.currentOpenMovie.imageLink.valueOf()
+        };
+        this.movieService.addReview(obj)
             // .pipe(first())
             .subscribe(
                 data => {
+                    let NewReview: Review = data;
+                    console.log('new review');
+                    console.log(NewReview);
+                    this._reviews.push(NewReview);
                     this.router.navigate([this.returnUrl]);
-                    this.error = "Successfully Updated, Password";
+                    this.error = "Review Added";
                     this.loading = false;
                 },
                 error => {

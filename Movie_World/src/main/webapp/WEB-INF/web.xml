@@ -45,6 +45,7 @@
         <url-pattern>/api/users/unfollow/*</url-pattern>
         <url-pattern>/api/movies/watchlist/add/*</url-pattern>
         <url-pattern>/api/movies/watchlist/remove/*</url-pattern>
+        <url-pattern>/api/movies/watchlist</url-pattern>
         <url-pattern>/api/movies/ratings/add/*</url-pattern>
         <url-pattern>/api/movies/ratings/update/*</url-pattern>
         <url-pattern>/api/movies/ratings/delete</url-pattern>
@@ -52,6 +53,7 @@
         <url-pattern>/api/movies/reviews/add</url-pattern>
         <url-pattern>/api/movies/reviews/update</url-pattern>
         <url-pattern>/api/movies/reviews/delete</url-pattern>
+        <url-pattern>/api/movies/reviews/</url-pattern>
         <url-pattern>/api/auth/changepass</url-pattern>
     </filter-mapping>
 <!--    <error-page>

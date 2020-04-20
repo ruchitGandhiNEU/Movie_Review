@@ -106,9 +106,13 @@ public class MovieController {
             user = (User) request.getAttribute("user");
             boolean isWatchList;
             if (user == null) {
+                System.out.println("com.cinema.controller.MovieController.isWatchList() -- user is null");
                 isWatchList = false;
             } else {
+                
+                System.out.println("com.cinema.controller.MovieController.isWatchList() -- user is not null going for DAO");
                 isWatchList = movieDao.isWatchList(movie, user);
+                System.out.println("com.cinema.controller.MovieController.isWatchList() -- DAO returned isWatchlist as - "+ isWatchList);                
             }
             return new ResponseEntity<>(new CustomMessage(String.valueOf(isWatchList)), HttpStatus.OK);
         } catch (Exception e) {

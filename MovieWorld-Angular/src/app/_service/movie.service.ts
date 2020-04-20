@@ -66,4 +66,8 @@ export class MovieService {
   getThisMovieReviews(movie: Movie) {
    return this.http.get<Array<Review>>( ConstantClass.BaseURL + '/movies/reviews/'+movie.id );
   }
+
+  addReview(obj: { imageLink: string; review: any; movieId: number; movieName: string }):Observable<Review> {
+    return this.http.post<Review>(ConstantClass.BaseURL + '/movies/reviews/add' , obj);
+  }
 }

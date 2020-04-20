@@ -15,6 +15,8 @@ import { ChangePasswordComponent } from './_components/change-password/change-pa
 import { MoviePageComponent } from './_components/movie-page/movie-page.component';
 import { MyMovieListComponent } from './_components/my-movie-list/my-movie-list.component';
 import { MovieReviewsComponent } from './_components/movie-reviews/movie-reviews.component';
+import { AdminPanelComponent } from './_components/admin-panel/admin-panel.component';
+import { AddMovieComponent } from './_components/add-movie/add-movie.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { MovieReviewsComponent } from './_components/movie-reviews/movie-reviews
     ChangePasswordComponent,
     MoviePageComponent,
     MyMovieListComponent,
-    MovieReviewsComponent
+    MovieReviewsComponent,
+    AdminPanelComponent,
+    AddMovieComponent
   ],
   imports: [
     BrowserModule,

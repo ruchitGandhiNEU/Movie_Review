@@ -78,14 +78,12 @@ export class LoginComponent implements OnInit {
 
   }
 
-   ValidateEmail(mail)
-{
- if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail))
-  {
-    return (true);
-  }
+  ValidateEmail(mail) {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
+      return (true);
+    }
     return (false);
-}
+  }
 
 
   onRegisterSubmit() {

@@ -4,6 +4,7 @@ export class User {
         firstName: String;
         lastName: String;
         userName: String;
-        userRole : { 'Critic', 'User', 'Admin' }
+        email: String;
+        userRole : { 'Critic', 'User', 'Admin' };
 
 }

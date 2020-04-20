@@ -1,5 +1,9 @@
 <div class="container">
-   <div class="col-xs-12 col-sm-6 col-md-4">
+  <div class="row">
+    <div class="col-md-4">
+
+<!--      User Card   -->
+   <div class="">
                 <div class="image-flip" >
                     <div class="mainflip flip-0">
                         <div class="frontside">
@@ -8,7 +12,8 @@
                                     <p><img class=" img-fluid" src="https://sunlimetech.com/portfolio/boot4menu/assets/imgs/team/img_01.png" alt="card image"></p>
                                     <h4 class="card-title">{{currentUser.firstName}} {{currentUser.lastName}}</h4>
                                     <p class="card-text">This profile belongs to user : {{currentUser.userName}}</p>
-                                    <a href="https://www.fiverr.com/share/qb8D02" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
+                                    <p class="card-text">Email : {{currentUser.email}}</p>
+                                    <a class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -45,5 +50,17 @@
                     </div>
                 </div>
             </div>
+
+    </div>
+
+    <div class="col-md-8" *ngIf="isUserAdmin">
+
+<!--      Admin Controls if any-->
+      <app-admin-panel></app-admin-panel>
+      <app-add-movie></app-add-movie>
+
+
+    </div>
+  </div>
 </div>
 

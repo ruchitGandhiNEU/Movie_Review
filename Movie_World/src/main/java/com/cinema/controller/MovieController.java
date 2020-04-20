@@ -63,6 +63,26 @@ public class MovieController {
         
     }
     
+        @RequestMapping(value = "/movies/add",
+            method = RequestMethod.POST,
+            produces = "application/json")
+    public  ResponseEntity<Object> addNewMovie(@RequestBody Movie movie,HttpServletRequest request) throws UserGeneratedExceptions{
+       
+        try {
+            
+               movieDao.addNewMovie(movie);
+
+            return new ResponseEntity<>("Movie Added", HttpStatus.OK);
+        } catch (Exception e) {
+            List<CustomMessage> errors = new ArrayList<>();
+            errors.add(new CustomMessage(e.getMessage()));
+            return new ResponseEntity<>(new ErrorsResponse(errors), HttpStatus.BAD_REQUEST);
+        }
+    
+        
+        
+    }
+    
     
     
     @RequestMapping(value = "/movies/watchlist/add",

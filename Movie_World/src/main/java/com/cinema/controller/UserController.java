@@ -13,6 +13,7 @@ import com.cinema.Exceptions.ErrorsResponse;
 import com.cinema.Exceptions.UserGeneratedExceptions;
 import com.cinema.TokenResponse.JWTTokenResponse;
 import com.cinema.TokenResponse.JWTTokenUtility;
+import com.cinema.mail.SendMail;
 import com.cinema.model.CustomMessage;
 import com.cinema.model.Password;
 import com.cinema.model.User;
@@ -86,6 +87,8 @@ public class UserController {
         }
         try {
             User u = userDao.register(user);
+            SendMail sendMail = new SendMail();
+            sendMail.sendRegistrationMail(user.getEmail(), user.getUserName(), user.getFirstName());
             
             // Generating token from User object
             final String token = jwtTokenUtil.generateToken(u);

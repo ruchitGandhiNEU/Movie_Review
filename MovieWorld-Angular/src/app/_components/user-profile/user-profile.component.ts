@@ -12,10 +12,12 @@ import {User} from '../../_model/user';
 export class UserProfileComponent implements OnInit {
 
    private _currentUser: User;
+     isUserAdmin: boolean = false;
 
-  constructor(private userService: UserService, private authenticateService: AuthenticationService,public route: ActivatedRoute) {
-
-    this.currentUser = authenticateService.currentUser;
+  constructor(private userService: UserService, private authenticateService: AuthenticationService) {
+      this.currentUser = authenticateService.currentUser;
+       this.isUserAdmin = authenticateService.currentUser.userRole[0] ==='A';
+    console.log( 'AdminPanelComponent - constructor - isUserAdmin ' + this.isUserAdmin + ' user is '+ authenticateService.currentUser.userRole[0] );
   }
 
   ngOnInit(): void {

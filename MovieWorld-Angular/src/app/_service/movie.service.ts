@@ -70,4 +70,10 @@ export class MovieService {
   addReview(obj: { imageLink: string; review: any; movieId: number; movieName: string }):Observable<Review> {
     return this.http.post<Review>(ConstantClass.BaseURL + '/movies/reviews/add' , obj);
   }
+
+  addNewMovie(newMovie: Movie) {
+
+  return this.http.post<any>(ConstantClass.BaseURL + '/movies/add', newMovie);
+
+  }
 }

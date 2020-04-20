@@ -405,5 +405,19 @@ try {
             throw new UserGeneratedExceptions(e.getMessage());
         }
     }
+
+    public void addNewMovie(Movie movie) throws UserGeneratedExceptions  {
+
+         try {
+            begin();
+            getSession().save(movie);
+            commit();
+            close();
+        } catch(HibernateException e) {
+            rollback();
+            throw new UserGeneratedExceptions(e.getMessage());
+        }
+
+    }
     
 }

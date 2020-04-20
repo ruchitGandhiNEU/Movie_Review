@@ -1,0 +1,84 @@
+<!--    //     movieName : String;-->
+<!--    // releaseYear: number;-->
+<!--    // description: String;-->
+<!--    // trailerLink: String;-->
+<!--    // genre: String;-->
+<!--    // imageLink: String;    -->
+
+<hr>
+
+<div class="card">
+      <h4 class="card-header">Admin Control : Add New Movie</h4>
+      <div class="card-body">
+        <form [formGroup]="registerForm" (ngSubmit)="onNewMovieSubmit()">
+          <div class="form-group">
+            <label>movieName
+              <input type="text" formControlName="movieName" class="form-control"
+                     [ngClass]="{ 'is-invalid': submitted2 && g.movieName.errors }" required/></label>
+            <div *ngIf="submitted2 && g.movieName.errors" class="invalid-feedback">
+              <div *ngIf="g.movieName.errors.required">movieName is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>releaseYear
+              <input type="number" min=1500 max=2021 formControlName="releaseYear" class="form-control"
+                     [ngClass]="{ 'is-invalid': submitted2 && g.releaseYear.errors }" required/></label>
+            <small class="form-text text-muted">Release Year : Eg: 2003.</small>
+            <div *ngIf="submitted2 && g.releaseYear.errors" class="invalid-feedback">
+              <div *ngIf="g.releaseYear.errors.required">Release Year is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Description
+              <input type="text" formControlName="description" class="form-control"
+                     [ngClass]="{ 'is-invalid': submitted2 && g.description.errors }" required/></label>
+            <div *ngIf="submitted2 && g.description.errors" class="invalid-feedback">
+              <div *ngIf="g.description.errors.required">description is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Trailer Link
+              <input type="text" formControlName="trailerLink" class="form-control"
+                     [ngClass]="{ 'is-invalid': submitted2 && g.trailerLink.errors }" required/></label>
+            <div *ngIf="submitted2 && g.trailerLink.errors" class="invalid-feedback">
+              <div *ngIf="g.trailerLink.errors.required">trailer Link is required</div>
+            </div>
+          </div>
+<!--          <div class="form-group">-->
+<!--            <label>Image Link-->
+<!--              <input type="text" formControlName="imageLink" class="form-control"-->
+<!--                     [ngClass]="{ 'is-invalid': submitted2 && g.imageLink.errors }" required/></label>-->
+<!--            <div *ngIf="submitted2 && g.imageLink.errors" class="invalid-feedback">-->
+<!--              <div *ngIf="g.imageLink.errors.required">imageLink Link is required</div>-->
+<!--            </div>-->
+<!--          </div>-->
+          <div class="form-group">
+            <label>Image Link
+              <input type="text" formControlName="imageLink" class="form-control"/>
+            </label>
+          </div>
+          <div class="form-group">
+            <label>Genre :
+              <select class="form-control" formControlName="genre"
+                      [ngClass]="{ 'is-invalid': submitted2 && g.genre.errors }">
+                <option value="Action">Action</option>
+                <option value="Comedy">Comedy</option>
+                <option value="Sci-fi">Sci-fi</option>
+                <option value="Romantic">Romantic</option>
+                <option value="Thriller">Thriller</option>
+                <option value="Suspense">Suspense</option>
+              </select>
+                          </label>
+              <div *ngIf="submitted2 && g.genre.errors" class="invalid-feedback">
+                <div *ngIf="g.genre.errors.required">Genre is required</div>
+
+          </div>
+          </div>
+          <button [disabled]="loading" class="btn btn-primary">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            Add Movie
+          </button>
+          <div *ngIf="error2" class="alert alert-danger mt-3 mb-0">{{error2}}</div>
+        </form>
+      </div>
+    </div>

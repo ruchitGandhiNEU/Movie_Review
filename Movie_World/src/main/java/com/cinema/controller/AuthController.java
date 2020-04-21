@@ -18,6 +18,7 @@ import com.cinema.TokenResponse.JWTTokenResponse;
 import com.cinema.TokenResponse.JWTTokenUtility;
 import com.cinema.model.CustomMessage;
 import com.cinema.model.User;
+import com.cinema.service.AuthService;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -40,40 +41,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     @Autowired
-    @Qualifier("authDao")
-    AuthorizationDAO authDao;
+    @Qualifier("authService")
+    AuthService authService;
 
-    @Autowired
-    @Qualifier("jwtTokenUtil")
-    private JWTTokenUtility jwtTokenUtility;
-
-    // User Login and return token
-    // access: private 
+    //This method is for login of user and generating token, using Token Utility.
+    //Thus Token Might be used for later purpose
     @RequestMapping(value = "/login", method = RequestMethod.POST, consumes="application/json")
     public ResponseEntity<Object> createAuthenticationToken(@RequestBody User u) throws Exception {
-        try {
-            User user = authDao.authenticate(u.getUserName(), u.getPassword());
-            final String token = jwtTokenUtility.generateToken(user);
-            System.out.println("com.cinema.controller.AuthController.createAuthenticationToken() - /login -- user " + user.getUserName());
-            return new ResponseEntity<>(new JWTTokenResponse(token,user), HttpStatus.OK);
-        } catch (UserGeneratedExceptions e) {
-            List<CustomMessage> errors = new ArrayList<>();
-            errors.add(new CustomMessage(e.getMessage()));
-            return new ResponseEntity<>(new ErrorsResponse(errors), HttpStatus.BAD_REQUEST);
-        }
+        return authService.createAuthenticationToken(u);
     }
 
-    // Getting user details from token
-    // access: private
+//This method is for getting userdetails just from the request
     @RequestMapping(value = "/getUserDetails", method = RequestMethod.GET)
     public ResponseEntity<Object> getUserDetails(HttpServletRequest request) throws Exception {
-        try {
-            User user = (User) request.getAttribute("user");
-            return new ResponseEntity<>(user, HttpStatus.OK);
-        } catch (Exception e) {
-            List<CustomMessage> errors = new ArrayList<>();
-            errors.add(new CustomMessage(e.getMessage()));
-            return new ResponseEntity<>(new ErrorsResponse(errors), HttpStatus.BAD_REQUEST);
-        }
+            return authService.getUserDetails(request);
     }
 }

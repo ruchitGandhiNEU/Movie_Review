@@ -6,17 +6,11 @@
 package com.cinema.controller;
 
 
-import com.cinema.DAO.MovieHandlerDAO;
-import com.cinema.Exceptions.ErrorsResponse;
 import com.cinema.Exceptions.UserGeneratedExceptions;
-import com.cinema.model.CustomMessage;
 import com.cinema.model.Movie;
-import com.cinema.model.Reviews;
-import com.cinema.model.Role;
-import com.cinema.model.User;
+import com.cinema.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,11 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
-import org.json.JSONObject;
 
 /**
  *
@@ -42,248 +32,133 @@ public class MovieController {
     
     
     @Autowired
-    @Qualifier("movieDao")
-    MovieHandlerDAO movieDao;
+    @Qualifier("movieService")
+    MovieService movieService;
     
+    
+    //This method will help us get all the movies in the data base so that we can diplay.
     @RequestMapping(value = "/movies/all",
             method = RequestMethod.GET,
             produces = "application/json")
     public  ResponseEntity<Object> getAllMovies() throws UserGeneratedExceptions{
-        List<Movie> allMovies = null;
-        try {
-                 allMovies = movieDao.getAllMovies();
-            return new ResponseEntity<>(allMovies, HttpStatus.OK);
-        } catch (Exception e) {
-            List<CustomMessage> errors = new ArrayList<>();
-            errors.add(new CustomMessage(e.getMessage()));
-            return new ResponseEntity<>(new ErrorsResponse(errors), HttpStatus.BAD_REQUEST);
-        }
-    
-        
-        
+            return movieService.getAllMovies();
     }
     
     
     
-        
+     // If Admin wants to delete a Movie, He can delete it and all its mapping will be deleted.
+    //All validations are done in service class
     @RequestMapping(value = "/movies/delete",
             method = RequestMethod.POST,
             produces = "application/json")
     public  ResponseEntity<Object> deleteAMovie(@RequestBody Movie movie,HttpServletRequest request) throws UserGeneratedExceptions{
-        
-        try {
-                  movieDao.deleteAMovie(movie);
-            return new ResponseEntity<>("Movie Deleted Successfully", HttpStatus.OK);
-        } catch (Exception e) {
-            List<CustomMessage> errors = new ArrayList<>();
-            errors.add(new CustomMessage(e.getMessage()));
-            return new ResponseEntity<>(new ErrorsResponse(errors), HttpStatus.BAD_REQUEST);
-        }
-    
-        
-        
+        return movieService.deleteAMovie(movie, request);        
     }
     
     
-    
+    //This method will help Admin add a new movie to the data base once he decides.
         @RequestMapping(value = "/movies/add",
             method = RequestMethod.POST,
             produces = "application/json")
     public  ResponseEntity<Object> addNewMovie(@RequestBody Movie movie,HttpServletRequest request) throws UserGeneratedExceptions{
-       
-        try {
-            
-               movieDao.addNewMovie(movie);
-
-            return new ResponseEntity<>("Movie Added", HttpStatus.OK);
-        } catch (Exception e) {
-            List<CustomMessage> errors = new ArrayList<>();
-            errors.add(new CustomMessage(e.getMessage()));
-            return new ResponseEntity<>(new ErrorsResponse(errors), HttpStatus.BAD_REQUEST);
-        }
-    
+       return movieService.addNewMovie(movie, request);
         
         
     }
     
     
-    
+    // If a user wants to add a movie to his database he may use this api to add. Post body would contain the movie object.
+    //All validations for user/movie existance are taken care of in service class.
     @RequestMapping(value = "/movies/watchlist/add",
             method = RequestMethod.POST,
             produces = "application/json")
     public ResponseEntity<Object> addToWatchList(@RequestBody Movie movie, HttpServletRequest request) throws Exception {
-        User user = null;
-        try {
-            user = (User) request.getAttribute("user");
-            movieDao.addToWatchList(user, movie);
-            return new ResponseEntity<>(new CustomMessage("Movie added to watchlist"), HttpStatus.OK);
-        } catch (UserGeneratedExceptions e) {
-            List<CustomMessage> errors = new ArrayList<>();
-            errors.add(new CustomMessage(e.getMessage()));
-            return new ResponseEntity<>(new ErrorsResponse(errors), HttpStatus.BAD_REQUEST);
-        }
+        return movieService.addToWatchList(movie, request);
     }
 
+        // If a user wants to remove a movie to his database he may use this api to add. Post body would contain the movie object.
+    //All validations for user/movie existance are taken care of in service class.
+    //Mappings are also validated.
     @RequestMapping(value = "/movies/watchlist/remove",
             method = RequestMethod.POST,
             produces = "application/json")
     public ResponseEntity<Object> removeFromWatchList(@RequestBody Movie movie, HttpServletRequest request) throws Exception {
-        User user = null;
-        try {
-            user = (User) request.getAttribute("user");
-            movieDao.removeFromWatchList(user, movie);
-            return new ResponseEntity<>(new CustomMessage("Movie removed from watchlist"), HttpStatus.OK);
-        } catch (UserGeneratedExceptions e) {
-            List<CustomMessage> errors = new ArrayList<>();
-            errors.add(new CustomMessage(e.getMessage()));
-            return new ResponseEntity<>(new ErrorsResponse(errors), HttpStatus.BAD_REQUEST);
-        }
+        return movieService.removeFromWatchList(movie, request);
     }
 
+    
+    
+    //If we want to check if a movie is in user's watchlist we can check that from here.
+    // It will be usefull when we want to help user add or delete movie from watch list.
     @RequestMapping(value = "/movies/watchlist",
             method = RequestMethod.POST,
             produces = "application/json")
     public ResponseEntity<Object> isWatchList(@RequestBody Movie movie, HttpServletRequest request) throws Exception {
-        User user = null;
-        try {
-            user = (User) request.getAttribute("user");
-            boolean isWatchList;
-            if (user == null) {
-                System.out.println("com.cinema.controller.MovieController.isWatchList() -- user is null");
-                isWatchList = false;
-            } else {
-                
-                System.out.println("com.cinema.controller.MovieController.isWatchList() -- user is not null going for DAO");
-                isWatchList = movieDao.isWatchList(movie, user);
-                System.out.println("com.cinema.controller.MovieController.isWatchList() -- DAO returned isWatchlist as - "+ isWatchList);                
-            }
-            return new ResponseEntity<>(new CustomMessage(String.valueOf(isWatchList)), HttpStatus.OK);
-        } catch (Exception e) {
-            List<CustomMessage> errors = new ArrayList<>();
-            errors.add(new CustomMessage(e.getMessage()));
-            return new ResponseEntity<>(new ErrorsResponse(errors), HttpStatus.BAD_REQUEST);
-        }
+        return movieService.isWatchList(movie, request);
     }
 
+    //If we want to get all the list of movies in user's watchlist we can get it from this method.
+    //User is validated to check that he can only call for his list.
     @RequestMapping(value = "/movies/watchlist/{userId}",
             method = RequestMethod.GET,
             produces = "application/json")
     public ResponseEntity<Object> getWatchList(@PathVariable String userId) {
-        try {
-            Set<Movie> watchlist = movieDao.getWatchList(userId);
-            return new ResponseEntity<>(watchlist, HttpStatus.OK);
-        } catch (UserGeneratedExceptions e) {
-            List<CustomMessage> errors = new ArrayList<>();
-            errors.add(new CustomMessage(e.getMessage()));
-            return new ResponseEntity<>(new ErrorsResponse(errors), HttpStatus.BAD_REQUEST);
-        }
+        return movieService.getWatchList(userId);
     }
 
+    
+    //Add a rating to the movie for a user.
+    //User is validated from the token.
+    // Rating validation done in service for 0 < x > 10.
     @RequestMapping(value = "/movies/ratings/add/{rating}",
             method = RequestMethod.POST,
             produces = "application/json")
     public ResponseEntity<Object> addRatings(@PathVariable String rating, @RequestBody Movie movie, HttpServletRequest request) {
-        try {
-            double r = Double.parseDouble(rating);
-            if (r < 0 || r > 10) {
-                throw new UserGeneratedExceptions("Rating should be in range of 0 to 10");
-            }
-            User user = (User) request.getAttribute("user");
-            movieDao.addRatings(movie, user, r);
-            return new ResponseEntity<>(new CustomMessage("Ratings added"), HttpStatus.OK);
-        } catch (UserGeneratedExceptions e) {
-            List<CustomMessage> errors = new ArrayList<>();
-            errors.add(new CustomMessage(e.getMessage()));
-            return new ResponseEntity<>(new ErrorsResponse(errors), HttpStatus.BAD_REQUEST);
-        } catch (NumberFormatException e) {
-            List<CustomMessage> errors = new ArrayList<>();
-            errors.add(new CustomMessage("Invalid ratings"));
-            return new ResponseEntity<>(new ErrorsResponse(errors), HttpStatus.BAD_REQUEST);
-        }
+        return movieService.addRatings(rating, movie, request);
+            
     }
 
+      //update a rating to the movie for a user.
+    //User is validated from the token.
+    // Rating validation done in service for 0 < x > 10.
     @RequestMapping(value = "/movies/ratings/update/{rating}",
             method = RequestMethod.POST,
             produces = "application/json")
     public ResponseEntity<Object> updateRatings(@PathVariable String rating, @RequestBody Movie movie, HttpServletRequest request) {
-        try {
-            double r = Double.parseDouble(rating);
-            if (r < 0 || r > 10) {
-                throw new UserGeneratedExceptions("Please let ratings be between Zero and Ten");
-            }
-            User user = (User) request.getAttribute("user");
-            movieDao.updateRatings(movie, user, r);
-            return new ResponseEntity<>(new CustomMessage("Successfully updated"), HttpStatus.OK);
-        } catch (UserGeneratedExceptions e) {
-            List<CustomMessage> errors = new ArrayList<>();
-            errors.add(new CustomMessage(e.getMessage()));
-            return new ResponseEntity<>(new ErrorsResponse(errors), HttpStatus.BAD_REQUEST);
-        } catch (NumberFormatException e) {
-            List<CustomMessage> errors = new ArrayList<>();
-            errors.add(new CustomMessage("Invalid ratings"));
-            return new ResponseEntity<>(new ErrorsResponse(errors), HttpStatus.BAD_REQUEST);
-        }
+        return movieService.updateRatings(rating, movie, request);
     }
 
+          //delete a rating to the movie for a user.
+    //User is validated from the token.
     @RequestMapping(value = "/movies/ratings/delete",
             method = RequestMethod.POST,
             produces = "application/json")
     public ResponseEntity<Object> deleteRatings(@RequestBody Movie movie, HttpServletRequest request) {
-        try {
-            User user = (User) request.getAttribute("user");
-            movieDao.deleteRatings(movie, user);
-            return new ResponseEntity<>(new CustomMessage("Ratings deleted"), HttpStatus.OK);
-        } catch (UserGeneratedExceptions e) {
-            List<CustomMessage> errors = new ArrayList<>();
-            errors.add(new CustomMessage(e.getMessage()));
-            return new ResponseEntity<>(new ErrorsResponse(errors), HttpStatus.BAD_REQUEST);
-        }
+        return movieService.deleteRatings(movie, request);
     }
 
+//    getAverage ratings for a particular movie;
     @RequestMapping(value = "/movies/ratings/get/{movieId}",
             method = RequestMethod.GET,
             produces = "application/json")
     public ResponseEntity<Object> getAvgRatings(@PathVariable String movieId, HttpServletRequest request) {
-        try {
-            double avgRatings = movieDao.getAvgRatings(movieId);
-            return new ResponseEntity<>(new CustomMessage(String.valueOf(avgRatings)), HttpStatus.OK);
-        } catch (UserGeneratedExceptions e) {
-            List<CustomMessage> errors = new ArrayList<>();
-            errors.add(new CustomMessage(e.getMessage()));
-            return new ResponseEntity<>(new ErrorsResponse(errors), HttpStatus.BAD_REQUEST);
-        }
+        return movieService.getAvgRatings(movieId, request);
     }
 
+    // lets get a user's personal rating to a movie so that it can be updated later.
     @RequestMapping(value = "/movies/ratings/users/get/{movieId}",
             method = RequestMethod.GET,
             produces = "application/json")
     public ResponseEntity<Object> getUserRatingsForMovie(@PathVariable String movieId, HttpServletRequest request) {
-        try {
-            User user = (User) request.getAttribute("user");
-            JSONObject ratings = movieDao.getUserRatingsForMovie(movieId, user);
-
-            return new ResponseEntity<>(ratings.toMap(), HttpStatus.OK);
-        } catch (UserGeneratedExceptions e) {
-            List<CustomMessage> errors = new ArrayList<>();
-            errors.add(new CustomMessage(e.getMessage()));
-            return new ResponseEntity<>(new ErrorsResponse(errors), HttpStatus.BAD_REQUEST);
-        }
+        return movieService.getUserRatingsForMovie(movieId, request);
     }
 
+//    Get a user's rating for another uer, if any.
     @RequestMapping(value = "/movies/ratings/users/{userId}",
             method = RequestMethod.GET,
             produces = "application/json")
     public ResponseEntity<Object> getUserRatings(@PathVariable String userId, HttpServletRequest request) {
-        try {
-//            User user = (User) request.getAttribute("user");
-            List<Object> ratings = movieDao.getUserRatings(userId);
-
-            return new ResponseEntity<>(ratings, HttpStatus.OK);
-        } catch (UserGeneratedExceptions e) {
-            List<CustomMessage> errors = new ArrayList<>();
-            errors.add(new CustomMessage(e.getMessage()));
-            return new ResponseEntity<>(new ErrorsResponse(errors), HttpStatus.BAD_REQUEST);
-        }
+        return movieService.getUserRatings(userId, request);
     }
 
     // Add whats a new review to the movie's list
@@ -291,110 +166,39 @@ public class MovieController {
             method = RequestMethod.POST,
             produces = "application/json")
     public ResponseEntity<Object> addReview(@RequestBody String body, HttpServletRequest request) {
-        try {
-            User user = (User) request.getAttribute("user");
-            
-            if (user.getUserRole() == Role.User) {
-                throw new UserGeneratedExceptions("User is not a critic");
-            }
-            JSONObject json = new JSONObject(body);
-                if (json.getString("review").equals("")) {
-                throw new UserGeneratedExceptions("Review is empty text");
-            }
-            Movie m = new Movie();
-            m.setId(json.getInt("movieId"));
-            m.setMovieName(json.getString("movieName"));
-            m.setImageLink(json.getString("imageLink"));
-            Reviews r =movieDao.addReview(user, m, json.getString("review"));
-
-            return new ResponseEntity<>(r, HttpStatus.OK);
-        } catch (UserGeneratedExceptions e) {
-            List<CustomMessage> errors = new ArrayList<>();
-            errors.add(new CustomMessage(e.getMessage()));
-            return new ResponseEntity<>(new ErrorsResponse(errors), HttpStatus.BAD_REQUEST);
-        }
+        return movieService.addReview(body, request);
     }
 
-    // Update Review for Movie
+    // If we want to update a user's review on movie
     @RequestMapping(value = "/movies/reviews/update",
             method = RequestMethod.POST,
             produces = "application/json")
     public ResponseEntity<Object> updateReview(@RequestBody String body, HttpServletRequest request) {
-        try {
-            User user = (User) request.getAttribute("user");
-            if (user.getUserRole() == Role.User) {
-                throw new UserGeneratedExceptions("User is unauthorized");
-            }
-            JSONObject json = new JSONObject(body);
-            if (json.getString("review").equals("")) {
-                throw new UserGeneratedExceptions("Review is empty text");
-            }
-
-            movieDao.updateReview(user, json.getInt("reviewId"), json.getString("review"));
-
-            return new ResponseEntity<>(new CustomMessage("Review updated"), HttpStatus.OK);
-        } catch (UserGeneratedExceptions e) {
-            List<CustomMessage> errors = new ArrayList<>();
-            errors.add(new CustomMessage(e.getMessage()));
-            return new ResponseEntity<>(new ErrorsResponse(errors), HttpStatus.BAD_REQUEST);
-        }
+        return movieService.updateReview(body, request);
     }
 
-    // Update Review for Movie
+    // If we want to delete a user's review on movie
     @RequestMapping(value = "/movies/reviews/delete",
             method = RequestMethod.POST,
             produces = "application/json")
     public ResponseEntity<Object> deleteReview(@RequestBody String body, HttpServletRequest request) {
-        try {
-            User user = (User) request.getAttribute("user");
-            if (user.getUserRole() == Role.User) {
-                throw new UserGeneratedExceptions("User is unauthorized");
-            }
-            
-            JSONObject json = new JSONObject(body);
-
-            movieDao.deleteReview(user, json.getInt("reviewId"));
-
-            return new ResponseEntity<>(new CustomMessage("Review deleted"), HttpStatus.OK);
-        } catch (UserGeneratedExceptions e) {
-            List<CustomMessage> errors = new ArrayList<>();
-            errors.add(new CustomMessage(e.getMessage()));
-            return new ResponseEntity<>(new ErrorsResponse(errors), HttpStatus.BAD_REQUEST);
-        }
+       return movieService.deleteReview(body, request);
     }
 
-    // Get Review for Movie
+    // Get Review for a particular Movie, we can use this to print this on the page.
     @RequestMapping(value = "/movies/reviews/{movieId}",
             method = RequestMethod.GET,
             produces = "application/json")
     public ResponseEntity<Object> getReviewsForMovie(@PathVariable String movieId, HttpServletRequest request) {
-        try {
-
-            List<Reviews> list = movieDao.getReviewsForMovie(movieId);
-
-            return new ResponseEntity<>(list, HttpStatus.OK);
-        } catch (UserGeneratedExceptions e) {
-            List<CustomMessage> errors = new ArrayList<>();
-            errors.add(new CustomMessage(e.getMessage()));
-            return new ResponseEntity<>(new ErrorsResponse(errors), HttpStatus.BAD_REQUEST);
-        }
+        return movieService.getReviewsForMovie(movieId, request);
     }
     
-    // Get Review for User
+    // If we want to find which reviews did this user gave.
     @RequestMapping(value = "/movies/reviews/users/{userId}",
             method = RequestMethod.GET,
             produces = "application/json")
     public ResponseEntity<Object> getReviewsForUser(@PathVariable String userId, HttpServletRequest request) {
-        try {
-
-            List<Reviews> list = movieDao.getReviewsForUser(userId);
-
-            return new ResponseEntity<>(list, HttpStatus.OK);
-        } catch (UserGeneratedExceptions e) {
-            List<CustomMessage> errors = new ArrayList<>();
-            errors.add(new CustomMessage(e.getMessage()));
-            return new ResponseEntity<>(new ErrorsResponse(errors), HttpStatus.BAD_REQUEST);
-        }
+        return movieService.getReviewsForUser(userId, request);
     }
     
 }

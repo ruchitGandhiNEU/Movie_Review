@@ -24,15 +24,23 @@
     <context:component-scan base-package="com.cinema.controller" />
 
     
-    <bean id="userValidator" class="com.cinema.model.UserValidationsCheck" />
-    <bean id="userDao" class="com.cinema.DAO.UserHandlerDAO" />
     
+    <!--DAO Class Beans Declaration-->
+    <bean id="userDao" class="com.cinema.DAO.UserHandlerDAO" />
     <bean id="authDao" class="com.cinema.DAO.AuthorizationDAO" />
-    <bean id="jwtTokenUtil" class="com.cinema.TokenResponse.JWTTokenUtility" />
-
     <bean id="movieDao" class="com.cinema.DAO.MovieHandlerDAO" />
     
+    
+    
+    <!--Service Class Beans Declarations--> 
+    <bean id="movieService" class="com.cinema.service.MovieService" />
+        <bean id="userService" class="com.cinema.service.UserService" />
+    <bean id="authService" class="com.cinema.service.AuthService" />
+    
+    <!--Utility Classes Beans Declaration-->
+    <bean id="jwtTokenUtil" class="com.cinema.TokenResponse.JWTTokenUtility" />
     <bean id="password" class="com.cinema.model.Password"/>
-        
+    <bean id="userValidator" class="com.cinema.model.UserValidationsCheck" />
+
 
 </beans>

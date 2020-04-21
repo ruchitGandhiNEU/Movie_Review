@@ -98,4 +98,9 @@ export class MovieService {
     return this.http.post(ConstantClass.BaseURL + '/movies/delete', movie);
 
   }
+
+  deleteThisReview(review: Review) {
+
+   return this.http.post<any>(ConstantClass.BaseURL + '/movies/reviews/delete', { "reviewId" : review.id } );
+  }
 }

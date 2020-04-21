@@ -10,9 +10,10 @@ import {AuthenticationService} from '../../_service/authentication.service';
   styleUrls: ['./movie-list.component.scss']
 })
 export class MovieListComponent implements OnInit {
-  private _movies: Movie[];
+  private _movies: Array<Movie>;
   private _error: String;
   isAdmin: boolean = false;
+
 
   constructor(private movieService: MovieService, private router: Router, private authenticateService: AuthenticationService) {
     movieService.getAllMovies().subscribe((list) => this.movies = list,
@@ -21,20 +22,18 @@ export class MovieListComponent implements OnInit {
         console.log(error);
         this._error = error;
       });
-
     this.isAdmin = authenticateService.currentUser.userRole[0] === 'A';
-
   }
 
   ngOnInit(): void {
   }
 
 
-  get movies(): Movie[] {
+  get movies(): Array<Movie> {
     return this._movies;
   }
 
-  set movies(value: Movie[]) {
+  set movies(value: Array<Movie>) {
     this._movies = value;
   }
 
@@ -62,12 +61,10 @@ export class MovieListComponent implements OnInit {
         console.log('getMyMovieList() --> my-movie-list-component - mylist - data');
         console.log(data);
 
-        this.movieService.getAllMovies().subscribe((list) => this.movies = list,
-          error => {
-            console.log('error obj -- movielist deleteAMovieByAdmin');
-            console.log(error);
-            this._error = error;
-          });
+          let ind = this._movies.findIndex((m) => m.id === movie.id);
+          if(ind > -1){
+            this._movies.slice(ind,1);
+          }
 
 
       }, (error) => {

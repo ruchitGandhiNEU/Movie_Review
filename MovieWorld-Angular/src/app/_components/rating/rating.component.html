@@ -1,0 +1,23 @@
+
+<fieldset class="rating" >
+      <input type="radio" id="star10"  [(ngModel)]="userRatingVal"   [checked]="userRatingVal === 10" name="rating" value="10" (change)="onItemChange(10, $event)" />
+    <label for="star10">10 stars</label>
+      <input type="radio" id="star9" [(ngModel)]="userRatingVal"   [checked]="userRatingVal === 9" name="rating" value="9" (change)="onItemChange(9, $event)" />
+    <label for="star9">9 stars</label>
+      <input type="radio" id="star8" [(ngModel)]="userRatingVal"   [checked]="userRatingVal === 8" name="rating" value="8" (change)="onItemChange(8, $event)" />
+    <label for="star8">8 stars</label>
+      <input type="radio" id="star7" [(ngModel)]="userRatingVal"   [checked]="userRatingVal === 7" name="rating" value="7" (change)="onItemChange(7, $event)" />
+    <label for="star7">7 stars</label>
+      <input type="radio" id="star6" [(ngModel)]="userRatingVal"   [checked]="userRatingVal === 6" name="rating" value="6" (change)="onItemChange(6, $event)" />
+    <label for="star6">6 stars</label>
+    <input type="radio" id="star5" [(ngModel)]="userRatingVal"   [checked]="userRatingVal === 5" name="rating" value="5" (change)="onItemChange(5, $event)" />
+    <label for="star5">5 stars</label>
+    <input type="radio" id="star4" [(ngModel)]="userRatingVal"   [checked]="userRatingVal === 4"  name="rating" value="4" (change)="onItemChange(4, $event)"/>
+    <label for="star4">4 stars</label>
+    <input type="radio" id="star3" [(ngModel)]="userRatingVal"   [checked]="userRatingVal === 3"  name="rating" value="3" (change)="onItemChange(3, $event)" />
+    <label for="star3">3 stars</label>
+    <input type="radio" id="star2" [(ngModel)]="userRatingVal"   [checked]="userRatingVal === 2"   name="rating" value="2" (change)="onItemChange(2, $event)"/>
+    <label for="star2">2 stars</label>
+    <input type="radio" id="star1" [(ngModel)]="userRatingVal"   [checked]="userRatingVal === 1"  name="rating" value="1" (change)="onItemChange(1, $event)"/>
+    <label for="star1">1 star</label>
+</fieldset>

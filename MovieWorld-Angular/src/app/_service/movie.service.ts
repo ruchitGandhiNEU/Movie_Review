@@ -76,4 +76,20 @@ export class MovieService {
   return this.http.post<any>(ConstantClass.BaseURL + '/movies/add', newMovie);
 
   }
+
+  public getRatingForCurrentMovieAndCurrentUser() {
+    // /movies/ratings/users/get/{movieId}
+    return this.http.get<any>(ConstantClass.BaseURL + '/movies/ratings/users/get/'+this.currentOpenMovie.id );
+  }
+
+  addNewRatingForCurrentMovieForCurrentUser(rating: number) {
+    // /movies/ratings/add/{rating}
+    return this.http.post(ConstantClass.BaseURL + '/movies/ratings/add/'+rating, this.currentOpenMovie);
+
+  }
+
+  updateRatingForCurrentMovieForCurrentUser(rating: number) {
+    // /movies/ratings/update/{rating}
+    return this.http.post(ConstantClass.BaseURL + '/movies/ratings/update/'+rating, this.currentOpenMovie);
+  }
 }

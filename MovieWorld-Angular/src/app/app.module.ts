@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { appRoutingModule } from './app.routing';
@@ -17,6 +16,7 @@ import { MyMovieListComponent } from './_components/my-movie-list/my-movie-list.
 import { MovieReviewsComponent } from './_components/movie-reviews/movie-reviews.component';
 import { AdminPanelComponent } from './_components/admin-panel/admin-panel.component';
 import { AddMovieComponent } from './_components/add-movie/add-movie.component';
+import { RatingComponent } from './_components/rating/rating.component';
 
 @NgModule({
   declarations: [
@@ -30,14 +30,14 @@ import { AddMovieComponent } from './_components/add-movie/add-movie.component';
     MyMovieListComponent,
     MovieReviewsComponent,
     AdminPanelComponent,
-    AddMovieComponent
+    AddMovieComponent,
+    RatingComponent
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    NgbModule,
     appRoutingModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

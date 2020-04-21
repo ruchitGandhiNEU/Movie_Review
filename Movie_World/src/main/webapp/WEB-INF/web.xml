@@ -56,6 +56,7 @@
         <url-pattern>/api/movies/reviews/</url-pattern>
         <url-pattern>/api/auth/changepass</url-pattern>
         <url-pattern>/api/movies/add</url-pattern>
+        <url-pattern>/api/movies/delete</url-pattern>
     </filter-mapping>
 <!--    <error-page>
         <error-code>404</error-code>

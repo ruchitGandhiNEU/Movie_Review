@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
       password: [null, [Validators.required]]
     });
     this.registerForm = this.formBuilder.group({
-      username: [null, [Validators.required]],
+      username: [null, [Validators.required, Validators.pattern('^[a-z0-9_-]{3,16}$')]],
       password: [null, [Validators.required]],
       repassword: [null, [Validators.required]],
       firstname: [null, [Validators.required]],

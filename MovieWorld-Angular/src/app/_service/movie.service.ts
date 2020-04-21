@@ -92,4 +92,10 @@ export class MovieService {
     // /movies/ratings/update/{rating}
     return this.http.post(ConstantClass.BaseURL + '/movies/ratings/update/'+rating, this.currentOpenMovie);
   }
+
+  deleteASpecificMovie(movie: Movie){
+
+    return this.http.post(ConstantClass.BaseURL + '/movies/delete', movie);
+
+  }
 }

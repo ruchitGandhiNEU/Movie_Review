@@ -25,7 +25,7 @@ export class ErrorInterceptor implements HttpInterceptor {
       console.log('in error interceptor');
       console.log(err);
       let error = '';
-      if(err.error.error) error = err.error.error[0].message ;
+      if(err.error && err.error.error && err.error.error[0]) error = err.error.error[0].message ;
        else error = err.statusText;
       return throwError(error);
 

@@ -419,5 +419,19 @@ try {
         }
 
     }
+
+    public void deleteAMovie(Movie movie) throws UserGeneratedExceptions {
+        
+         try {
+            begin();
+            getSession().delete(movie);
+            commit();
+            close();
+        } catch(HibernateException e) {
+            rollback();
+            throw new UserGeneratedExceptions(e.getMessage());
+        }
+       
+    }
     
 }

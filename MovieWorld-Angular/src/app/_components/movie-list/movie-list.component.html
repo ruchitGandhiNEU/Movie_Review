@@ -61,6 +61,11 @@
               <i class="fa fa-star" aria-hidden="true"></i>
               <p>9.5/10</p>
             </div>
+             <div class="col-4 metadata" *ngIf="isAdmin" >
+              <i class="fas fa-trash-alt" (click)="deleteAMovieByAdmin(movie)"></i>
+              <p></p>
+            </div>
+
             <div class="col-8 metadata">{{movie.genre}}</div>
           </div>
         </div>
